@@ -13,7 +13,12 @@ var engine = Engine.create();
 // create a renderer
 var render = Render.create({
 element: document.body,
-engine: engine
+engine: engine,
+options: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    wireframes: false
+}
 });
 
 var Body = Matter.Body;
@@ -29,8 +34,8 @@ controller.onvalue = function(value)
         posx--;
     }
 
-    Body.translate( boxA, {x: posx, y: 0});
-    Body.rotate(boxA,posx*2*3.14/360);
+    //Body.translate( boxA, {x: posx, y: 0});
+    Body.rotate(boxA,(posx*2*3.14)/360);
 };
 
 var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
