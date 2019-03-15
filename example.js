@@ -27,7 +27,7 @@ options: {
 var boxA = Bodies.circle(400, 200, 80);
 
 var posx = 0;
-var ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight - 30, window.innerWidth, 60, { isStatic: true });
+var ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight - 30,10000, 60, { isStatic: true });
 World.add(engine.world, boxA);
 World.add(engine.world, ground);
 

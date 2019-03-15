@@ -40,8 +40,9 @@ class GameEngine{
         // create runner
         this.runner = this.Runner.create();
         this.Runner.run(this.runner, this.engine);
-
+        
         var obj = new GameObject(300,250,64,64,'cat.png',true);
+
         var boxA = this.Bodies.circle(400, 200, 80);
 
         
@@ -68,9 +69,16 @@ class GameEngine{
         
         }.bind(this));
 
+        
+        var test = new Terrain({x: 10, y: 10},{x: 50, y: 100},{x: 150, y: 200},{x: 200, y: 75},0.02,25);
+        this.World.add(this.world, test.sprite);
+
 
         this.Render.run(this.render);
         this.Engine.run(this.engine);
+
+
+
     }
 
     
