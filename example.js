@@ -7,6 +7,8 @@ Render = Matter.Render,
 World = Matter.World,
 Bodies = Matter.Bodies;
 
+var currentValue=0.0;
+
 // create an engine
 var engine = Engine.create();
 
@@ -22,23 +24,19 @@ options: {
 });
 
 var Body = Matter.Body;
-var boxA = Bodies.rectangle(400, 200, 80, 80);
+var boxA = Bodies.circle(400, 200, 80);
 var posx = 0;
+var ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight - 30, window.innerWidth, 60, { isStatic: true });
+World.add(engine.world, ground);
 controller.onvalue = function(value)
 {
+    var valueDiff = value - currentValue;
+    currentValue = value;
 
-    if(value > 0.5){
-        posx++;
+    var rotationValue = valueDiff/3.141
 
-    }else if (value < -0.5){
-        posx--;
-    }
-
-    //Body.translate( boxA, {x: posx, y: 0});
-    Body.rotate(boxA,(posx*2*3.14)/360);
+    Matter.Composite.rotate( engine.world, rotationValue, {x: window.innerWidth/2, y: window.innerHeight/2});
 };
-
-var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
 // add all of the bodies to the world
 World.add(engine.world, [boxA,ground]);
