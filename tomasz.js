@@ -36,9 +36,13 @@ var Py=p1.y*(1-a)*(1-a)+p2.y*a*(1-a)+2*p3.y*a;
 var Body = Matter.Body;
 var boxA = Bodies.rectangle(400, 200, 80, 80);
 
-var p1= new Position(300,100);
+var p1= new Position(200,100);
 var p2 = new Position(400,400);
 var p3 = new Position(500,100);
+//new Position(500,100),new Position(600,0),new Position(700,100)
+var p4= new Position(0,300);
+var p5= new Position(300,0);
+var p6= new Position(700,300);
 var bezierTable=[p1,p2,p3,new Position(500,100),new Position(600,0),new Position(700,100)];
 
 var tmpTable=[p1,p2];
@@ -76,9 +80,8 @@ var Vy;
 
 var circleTab=[];
 //var beginPoint = P(0)
-for(var b=0;b<bezierTable.length/3;b+=3)
+for(var b=0;b<bezierTable.length/3+1;b+=2)
 for(var a = 0; a <=1.0; a += 0.1)
-
 {
 // Px=p1.x*(1-a)*(1-a)+p2.x*a*(1-a)+2*p3.x*a;
 // Py=p1.y*(1-a)*(1-a)+p2.y*a*(1-a)+2*p3.y*a;
@@ -125,7 +128,7 @@ var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
 // add all of the bodies to the world
 World.add(engine.world, [boxA,ground,table[0]]);
-for(var a=0;a<20;a++)World.add(engine.world, [circleTab[a]]);
+for(var a=0;a<circleTab.length;a++)World.add(engine.world, [circleTab[a]]);
 
 
 // run the engine
