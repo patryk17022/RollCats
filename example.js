@@ -17,7 +17,7 @@ engine: engine
 });
 
 var Body = Matter.Body;
-var boxA = Bodies.rectangle(400, 200, 80, 80);
+var boxA = Bodies.rectangle(400, 200, 80, 80,{ isStatic: true });
 var posx = 0;
 controller.onvalue = function(value)
 {
@@ -29,7 +29,7 @@ controller.onvalue = function(value)
         posx--;
     }
 
-    Body.translate( boxA, {x: posx, y: 0});
+  //  Body.translate( boxA, {x: posx, y: 0});
     Body.rotate(boxA,posx*2*3.14/360);
 };
 
