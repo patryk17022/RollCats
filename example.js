@@ -24,7 +24,6 @@ options: {
 }
 });
 
-var Body = Matter.Body;
 var boxA = Bodies.circle(400, 200, 80);
 
 var posx = 0;
