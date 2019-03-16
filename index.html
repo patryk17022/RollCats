@@ -46,7 +46,7 @@ var rect = {
 
 canvas.addEventListener('click', function(evt) {
     var mousePos = getMousePos(canvas, evt);
-  
+ 
     Game.sound.pause();
         Game.sound = new Audio('msc/Magic Scout - Nothern Glade.mp3'); 
         Game.sound.addEventListener('ended', function() {
@@ -55,8 +55,8 @@ canvas.addEventListener('click', function(evt) {
         }, false);
       Game.sound.play();
       Game.MenuStart=false;
-      Game.MainLoop();
       canvas.style.display = 'none';
+      Game.MainLoop();
 }, false);
 </script>
 </html>
