@@ -120,7 +120,7 @@ class GameEngine{
                     this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
                     
                     
-                     var rotationValue = -this.currentValue*1.57;
+                     var rotationValue = this.currentValue*1.57;
                      Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
 
                      this.currentValue = 0.0;
@@ -218,7 +218,7 @@ Game.controller.onvalue = function(value)
         canvas.style.display = 'none';
         Game.MainLoop();
     }
-    var rotationValue = valueDiff*1.57;
+    var rotationValue = -valueDiff*1.57;
 
     Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
 };
