@@ -12,9 +12,7 @@ class Terrain{
 
         var j = 1;
         var n = 1.0/accuracy;
-        console.log(n)
         for (var i=n; i>0; i-=1){
-
             vert.push({x: vert[i].x, y: vert[i].y-width});
         }
   
