@@ -62,7 +62,7 @@ class GameEngine{
         var friendStart = {x: 0.915*this.levelDimension.x, y: 0.365*this.levelDimension.y};
         this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
 
-        this.friend = new GameObject(friendStart.x, friendStart.y, 0.0125*this.levelDimension.x,'catChild.png',false);
+        this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
         
 
         this.World.add(this.world, this.player.sprite);
@@ -114,7 +114,7 @@ class GameEngine{
             points[a].y = points[a].y*this.levelDimension.y; 
         }
 
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth);
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth, 'grass.png');
         this.World.add(this.world, test.sprite);
         
         this.Events.on(this.engine, 'beforeTick', function() {
