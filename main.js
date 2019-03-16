@@ -70,7 +70,7 @@ class GameEngine{
 
         var platformWidth = 0.025*this.levelDimension.x;
 
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth);
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth, 'grass.png');
         this.World.add(this.world, test.sprite);
 
         
@@ -86,7 +86,7 @@ class GameEngine{
             points[a].y = points[a].y*this.levelDimension.y; 
         }
 
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth);
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth,'grass.png');
         this.World.add(this.world, test.sprite);
 
 
