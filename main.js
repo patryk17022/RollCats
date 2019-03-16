@@ -30,6 +30,7 @@ class GameEngine{
         this.endPoint = null;
         this.catFollows = false;
         this.mouse = null;
+        this.currentLevel = 0;
         
 
         this.render = this.Render.create({
@@ -63,9 +64,9 @@ class GameEngine{
         this.runner = this.Runner.create();
         this.Runner.run(this.runner, this.engine);
         this.engine.timing.timeScale = 0.3;
-        var playerStart = {x: this.obj["startPos"].x*this.levelDimension.x, y: this.obj["startPos"].y*this.levelDimension.y};
-        var friendStart = {x: this.obj["friendPos"].x*this.levelDimension.x, y: this.obj["friendPos"].y*this.levelDimension.y};
-        var endPointLocation = {x: this.obj["finish"].x*this.levelDimension.x, y: this.obj["finish"].y*this.levelDimension.y};
+        var playerStart = {x: this.obj[this.currentLevel]["startPos"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["startPos"].y*this.levelDimension.y};
+        var friendStart = {x: this.obj[this.currentLevel]["friendPos"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["friendPos"].y*this.levelDimension.y};
+        var endPointLocation = {x: this.obj[this.currentLevel]["finish"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["finish"].y*this.levelDimension.y};
         this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
 
         this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
@@ -82,14 +83,14 @@ class GameEngine{
 
         // var text = '{"0":{"size":3},"1":{"p1x":0.05,"p1y":0.2,"p2x":0.1,"p2y":0.35,"p3x":0.4,"p3y":0.4,"p4x":0.5,"p4y":0.3},"2":{ "p1x":0.3,"p1y":0.5,"p2x":0.5,"p2y":0.6,"p3x":0.7,"p3y":0.6,"p4x":1,"p4y":0.3},"3":{"p1x":0.0,"p1y":0.6,"p2x":0.2,"p2y":1,"p3x":0.5,"p3y":1,"p4x":1,"p4y":0.5}}';
         //var obj = JSON.parse(text);
-        for(var jsonTable=1;jsonTable<this.obj[0].size+1;jsonTable++)
+        for(var jsonTable=1;jsonTable<this.obj[this.currentLevel][0].size+1;jsonTable++)
         {
         
         var points = [
-            {x: this.obj[jsonTable].p1x, y: this.obj[jsonTable].p1y},
-            {x: this.obj[jsonTable].p2x, y: this.obj[jsonTable].p2y},
-            {x: this.obj[jsonTable].p3x, y: this.obj[jsonTable].p3y},
-            {x: this.obj[jsonTable].p4x, y: this.obj[jsonTable].p4y}];
+            {x: this.obj[this.currentLevel][jsonTable].p1x, y: this.obj[this.currentLevel][jsonTable].p1y},
+            {x: this.obj[this.currentLevel][jsonTable].p2x, y: this.obj[this.currentLevel][jsonTable].p2y},
+            {x: this.obj[this.currentLevel][jsonTable].p3x, y: this.obj[this.currentLevel][jsonTable].p3y},
+            {x: this.obj[this.currentLevel][jsonTable].p4x, y: this.obj[this.currentLevel][jsonTable].p4y}];
 
         for(var a = 0; a < points.length; a++)
         {
@@ -108,20 +109,24 @@ class GameEngine{
             if(this.player.sprite.position.x < -1000 || 
                 this.player.sprite.position.x > 3000 ||
                 this.player.sprite.position.y < -1000 ||
-                this.player.sprite.position.y > 3000 )
+                this.player.sprite.position.y > 3000  ||
+                this.friend.sprite.position.x < -1000 || 
+                this.friend.sprite.position.x > 3000 ||
+                this.friend.sprite.position.y < -1000 ||
+                this.friend.sprite.position.y > 3000 )
                 {
                     this.Composite.remove(this.world, this.friend.sprite)
                     this.Composite.remove(this.world, this.player.sprite)
 
-                    var playerStart = {x: this.obj["startPos"].x*this.levelDimension.x, y: this.obj["startPos"].y*this.levelDimension.y};
-                    var friendStart = {x: this.obj["friendPos"].x*this.levelDimension.x, y: this.obj["friendPos"].y*this.levelDimension.y};
+                    var playerStart = {x: this.obj[this.currentLevel]["startPos"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["startPos"].y*this.levelDimension.y};
+                    var friendStart = {x: this.obj[this.currentLevel]["friendPos"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["friendPos"].y*this.levelDimension.y};
                     this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
 
                     this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
                     
                     
                      var rotationValue = this.currentValue*1.57;
-                     Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
+                     this.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
 
                      this.currentValue = 0.0;
 
@@ -146,7 +151,7 @@ class GameEngine{
             var distanceBetweenCats = Math.sqrt(Math.pow(this.player.sprite.position.x - this.friend.sprite.position.x, 2) + 
             Math.pow(this.player.sprite.position.y - this.friend.sprite.position.y, 2));
 
-            if(distanceBetweenCats < 100)
+            if(distanceBetweenCats < 150)
             {
                 this.catFollows = true;
             }
@@ -172,11 +177,53 @@ class GameEngine{
             if(distanceToEndPoint < 200 && distanceBetweenCats < 200 && this.catFollows)
             {
                 
-                this.Composite.remove(this.world, this.friend.sprite)
-                this.Composite.remove(this.world, this.player.sprite)
-                Game.sound.pause();
-                Game.sound = new Audio('msc/Carefree.mp3'); 
-                Game.sound.play();
+                this.Composite.clear(this.world, false);
+                this.currentLevel += 1;
+                this.catFollows=false;
+
+                var rotationValue = this.currentValue*1.57;
+                this.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
+
+                this.currentValue=0.0
+                var playerStart = {x: this.obj[this.currentLevel]["startPos"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["startPos"].y*this.levelDimension.y};
+                var friendStart = {x: this.obj[this.currentLevel]["friendPos"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["friendPos"].y*this.levelDimension.y};
+                var endPointLocation = {x: this.obj[this.currentLevel]["finish"].x*this.levelDimension.x, y: this.obj[this.currentLevel]["finish"].y*this.levelDimension.y};
+                this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
+
+                this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
+                this.endPoint = this.Bodies.circle(endPointLocation.x, endPointLocation.y, 0.01*this.levelDimension.x,{
+                    isStatic: true 
+                });
+
+                this.World.add(this.world, this.endPoint);
+                this.World.add(this.world, this.player.sprite);
+                this.World.add(this.world, this.friend.sprite);
+
+
+                var platformWidth = 0.025*this.levelDimension.x;
+
+                // var text = '{"0":{"size":3},"1":{"p1x":0.05,"p1y":0.2,"p2x":0.1,"p2y":0.35,"p3x":0.4,"p3y":0.4,"p4x":0.5,"p4y":0.3},"2":{ "p1x":0.3,"p1y":0.5,"p2x":0.5,"p2y":0.6,"p3x":0.7,"p3y":0.6,"p4x":1,"p4y":0.3},"3":{"p1x":0.0,"p1y":0.6,"p2x":0.2,"p2y":1,"p3x":0.5,"p3y":1,"p4x":1,"p4y":0.5}}';
+                //var obj = JSON.parse(text);
+                for(var jsonTable=1;jsonTable<this.obj[this.currentLevel][0].size+1;jsonTable++)
+                {
+                
+                var points = [
+                    {x: this.obj[this.currentLevel][jsonTable].p1x, y: this.obj[this.currentLevel][jsonTable].p1y},
+                    {x: this.obj[this.currentLevel][jsonTable].p2x, y: this.obj[this.currentLevel][jsonTable].p2y},
+                    {x: this.obj[this.currentLevel][jsonTable].p3x, y: this.obj[this.currentLevel][jsonTable].p3y},
+                    {x: this.obj[this.currentLevel][jsonTable].p4x, y: this.obj[this.currentLevel][jsonTable].p4y}];
+
+                for(var a = 0; a < points.length; a++)
+                {
+                    points[a].x = points[a].x*this.levelDimension.x;
+                    points[a].y = points[a].y*this.levelDimension.y; 
+                }
+
+                var test = new Terrain(points[0], points[1], points[2], points[3],0.05,platformWidth,'grass.png');
+                this.World.add(this.world, test.sprite);
+
+                }
+
                 Game.MenuStart=false;
             }
 
