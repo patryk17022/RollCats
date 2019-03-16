@@ -186,7 +186,12 @@ class GameEngine{
             {
                 
                 this.Composite.clear(this.world, false);
+                
                 this.currentLevel += 1;
+                if(this.currentLevel == this.obj["levelCount"])
+                {
+                    this.currentLevel = 0;
+                }
                 this.catFollows=false;
 
                 var rotationValue = this.currentValue*1.57;
