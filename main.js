@@ -70,11 +70,20 @@ class GameEngine{
         this.World.add(this.world, this.player.sprite);
         this.World.add(this.world, this.friend.sprite);
 
+
+
+
+        // var text = '{"0":{"size":3},"1":{"p1x":0.05,"p1y":0.2,"p2x":0.1,"p2y":0.35,"p3x":0.4,"p3y":0.4,"p4x":0.5,"p4y":0.3},"2":{ "p1x":0.3,"p1y":0.5,"p2x":0.5,"p2y":0.6,"p3x":0.7,"p3y":0.6,"p4x":1,"p4y":0.3},"3":{"p1x":0.0,"p1y":0.6,"p2x":0.2,"p2y":1,"p3x":0.5,"p3y":1,"p4x":1,"p4y":0.5}}';
+        //var obj = JSON.parse(text);
+        var obj = JSON.parse(data);
+        for(var jsonTable=1;jsonTable<obj[0].size+1;jsonTable++)
+        {
+        
         var points = [
-            {x: 0.05, y: 0.2},
-            {x: 0.1, y: 0.35},
-            {x: 0.4, y: 0.4},
-            {x: 0.5, y: 0.3}];
+            {x: obj[jsonTable].p1x, y: obj[jsonTable].p1y},
+            {x: obj[jsonTable].p2x, y: obj[jsonTable].p2y},
+            {x: obj[jsonTable].p3x, y: obj[jsonTable].p3y},
+            {x: obj[jsonTable].p4x, y: obj[jsonTable].p4y}];
 
         for(var a = 0; a < points.length; a++)
         {
@@ -86,38 +95,38 @@ class GameEngine{
 
         var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth, 'grass.png');
         this.World.add(this.world, test.sprite);
+    }
+       
+        // var points = [
+        //     {x: 0.3, y: 0.5},
+        //     {x: 0.5, y: 0.6},
+        //     {x: 0.7, y: 0.6},
+        //     {x: 1, y: 0.3}];
 
-        
-        var points = [
-            {x: 0.3, y: 0.5},
-            {x: 0.5, y: 0.6},
-            {x: 0.7, y: 0.6},
-            {x: 1, y: 0.3}];
+        // for(var a = 0; a < points.length; a++)
+        // {
+        //     points[a].x = points[a].x*this.levelDimension.x;
+        //     points[a].y = points[a].y*this.levelDimension.y; 
+        // }
 
-        for(var a = 0; a < points.length; a++)
-        {
-            points[a].x = points[a].x*this.levelDimension.x;
-            points[a].y = points[a].y*this.levelDimension.y; 
-        }
-
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth,'grass.png');
-        this.World.add(this.world, test.sprite);
+        // var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth,'grass.png');
+        // this.World.add(this.world, test.sprite);
 
 
-        var points = [
-            {x: 0.0, y: 0.6},
-            {x: 0.2, y: 1.0},
-            {x: 0.5, y: 1.0},
-            {x: 1, y: 0.5}];
+        // var points = [
+        //     {x: 0.0, y: 0.6},
+        //     {x: 0.2, y: 1.0},
+        //     {x: 0.5, y: 1.0},
+        //     {x: 1, y: 0.5}];
 
-        for(var a = 0; a < points.length; a++)
-        {
-            points[a].x = points[a].x*this.levelDimension.x;
-            points[a].y = points[a].y*this.levelDimension.y; 
-        }
+        // for(var a = 0; a < points.length; a++)
+        // {
+        //     points[a].x = points[a].x*this.levelDimension.x;
+        //     points[a].y = points[a].y*this.levelDimension.y; 
+        // }
 
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth, 'grass.png');
-        this.World.add(this.world, test.sprite);
+        // var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth, 'grass.png');
+        // this.World.add(this.world, test.sprite);
         
         this.Events.on(this.engine, 'beforeTick', function() {
 
