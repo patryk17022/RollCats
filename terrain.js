@@ -20,9 +20,11 @@ class Terrain{
         }
   
 
-    this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {isStatic : true} );
+    this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {isStatic : true}, {render: {
+        fillStyle: 'red'}
+    });
+    
     }
-
     bezier = function(t, p0, p1, p2, p3){
         var cX = 3 * (p1.x - p0.x),
             bX = 3 * (p2.x - p1.x) - cX,
