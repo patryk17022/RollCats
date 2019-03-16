@@ -22,7 +22,8 @@ class Terrain{
             render: {
                 strokeStyle: '#ffffff',
                 sprite: {
-                    texture: './img/' + texture
+                    texture: './img/' + texture,
+                    yScale: 2.0
                 }
             },
             isStatic : true} );
