@@ -50,7 +50,7 @@ class GameEngine{
         this.Runner.run(this.runner, this.engine);
 
         var playerStart = {x: 0.1*this.levelDimension.x, y: 0.1*this.levelDimension.y};
-        this.player = new GameObject(playerStart.x, playerStart.y, 0.0425*this.levelDimension.x,'cat.png',false);
+        this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
 
 
         this.World.add(this.world, this.player.sprite);
@@ -69,6 +69,22 @@ class GameEngine{
         }
 
         var platformWidth = 0.025*this.levelDimension.x;
+
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth);
+        this.World.add(this.world, test.sprite);
+
+        
+        var points = [
+            {x: 0.15, y: 0.4},
+            {x: 0.2, y: 1},
+            {x: 0.6, y: 0.8},
+            {x: 1, y: 0.3}];
+
+        for(var a = 0; a < points.length; a++)
+        {
+            points[a].x = points[a].x*this.levelDimension.x;
+            points[a].y = points[a].y*this.levelDimension.y; 
+        }
 
         var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth);
         this.World.add(this.world, test.sprite);
