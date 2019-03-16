@@ -59,12 +59,13 @@ class GameEngine{
         if(this.MenuStart==false)
         {
             
+        var obj = JSON.parse(data);
         this.runner = this.Runner.create();
         this.Runner.run(this.runner, this.engine);
         this.engine.timing.timeScale = 0.3;
-        var playerStart = {x: 0.1*this.levelDimension.x, y: 0.1*this.levelDimension.y};
-        var friendStart = {x: 0.915*this.levelDimension.x, y: 0.365*this.levelDimension.y};
-        var endPointLocation = {x: 0.485*this.levelDimension.x, y: 0.815*this.levelDimension.y};
+        var playerStart = {x: obj["startPos"].x*this.levelDimension.x, y: obj["startPos"].y*this.levelDimension.y};
+        var friendStart = {x: obj["friendPos"].x*this.levelDimension.x, y: obj["friendPos"].y*this.levelDimension.y};
+        var endPointLocation = {x: obj["finish"].x*this.levelDimension.x, y: obj["finish"].y*this.levelDimension.y};
         this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
 
         this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
@@ -81,7 +82,6 @@ class GameEngine{
 
         // var text = '{"0":{"size":3},"1":{"p1x":0.05,"p1y":0.2,"p2x":0.1,"p2y":0.35,"p3x":0.4,"p3y":0.4,"p4x":0.5,"p4y":0.3},"2":{ "p1x":0.3,"p1y":0.5,"p2x":0.5,"p2y":0.6,"p3x":0.7,"p3y":0.6,"p4x":1,"p4y":0.3},"3":{"p1x":0.0,"p1y":0.6,"p2x":0.2,"p2y":1,"p3x":0.5,"p3y":1,"p4x":1,"p4y":0.5}}';
         //var obj = JSON.parse(text);
-        var obj = JSON.parse(data);
         for(var jsonTable=1;jsonTable<obj[0].size+1;jsonTable++)
         {
         
@@ -178,10 +178,6 @@ class GameEngine{
                 this.Composite.remove(this.world, this.player.sprite)
                 Game.sound.pause();
                 Game.sound = new Audio('msc/Carefree.mp3'); 
-                Game.sound.addEventListener('ended', function() {
-                    this.currentTime = 0;
-                    this.play();
-                }, false);
                 Game.sound.play();
                 Game.MenuStart=false;
             }
