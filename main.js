@@ -128,7 +128,7 @@ class GameEngine{
                     
                     
                      var rotationValue = this.currentValue*1.57;
-                     this.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
+                     this.Composite.rotate( this.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
 
                      this.currentValue = 0.0;
 
@@ -226,7 +226,7 @@ class GameEngine{
 
                 }
 
-                Game.MenuStart=false;
+                this.MenuStart=false;
             }
 
         
@@ -254,7 +254,7 @@ Game.controller.onvalue = function(value)
     var valueDiff = value - Game.currentValue;
     Game.currentValue = value;
 
-    var rotationValue = valueDiff*1.57;
+    var rotationValue = -valueDiff*1.57;
 
     Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
 };
