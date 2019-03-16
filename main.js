@@ -100,7 +100,7 @@ class GameEngine{
 
         var test = new Terrain(points[0], points[1], points[2], points[3],0.05,platformWidth,'');
         this.World.add(this.world, test.sprite);
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.1,platformWidth,'grass.png');
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.05,platformWidth,'grass.png');
         this.World.add(this.world, test.sprite);
 
 
