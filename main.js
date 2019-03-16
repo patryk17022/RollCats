@@ -207,19 +207,6 @@ Game.controller.onvalue = function(value)
     var valueDiff = value - Game.currentValue;
     Game.currentValue = value;
 
-    if((value>=0.05 || value<=-0.05) && Game.MenuStart!=false)
-    {
-        Game.sound.pause();
-        Game.sound = new Audio('msc/Magic Scout - Nothern Glade.mp3'); 
-        Game.sound.addEventListener('ended', function() {
-            this.currentTime = 0;
-            this.play();
-        }, false);
-        Game.sound.play();
-        Game.MenuStart=false;
-        canvas.style.display = 'none';
-        Game.MainLoop();
-    }
     var rotationValue = valueDiff*1.57;
 
     Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
