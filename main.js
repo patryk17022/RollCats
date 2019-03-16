@@ -14,6 +14,7 @@ class GameEngine{
         this.Events = Matter.Events;
         this.MenuStart=true;
         this.World = Matter.World;
+        this.sound;
         this.controller = new EGZOController();
 
         this.currentValue = 0.0;
@@ -43,7 +44,8 @@ class GameEngine{
             }
         });
         
-      
+         this.sound= new Audio('msc/Carefree.mp3');
+      this.sound.play();
         this.MainLoop();
        
     }
@@ -176,6 +178,13 @@ Game.controller.onvalue = function(value)
 
     if((value>=0.05 || value<=-0.05) && Game.MenuStart!=false)
     {
+        Game.sound.pause();
+        Game.sound = new Audio('msc/Magic Scout - Nothern Glade.mp3'); 
+        Game.sound.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        Game.sound.play();
         Game.MenuStart=false;
         Game.MainLoop();
     }
