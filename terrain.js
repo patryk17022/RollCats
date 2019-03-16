@@ -29,9 +29,7 @@ class Terrain{
         else
         this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {
             render: {
-                fillStyle: `yellow`,
-                strokeStyle: 'white',
-                lineWidth: 3
+                fillStyle: `yellow`
       
                 
             },
