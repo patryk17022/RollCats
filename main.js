@@ -195,6 +195,7 @@ Game.controller.onvalue = function(value)
         }, false);
         Game.sound.play();
         Game.MenuStart=false;
+        canvas.style.display = 'none';
         Game.MainLoop();
     }
 
