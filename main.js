@@ -1,3 +1,4 @@
+
 class GameEngine{
 
     constructor() {    
@@ -7,6 +8,7 @@ class GameEngine{
         this.Composites = Matter.Composites;
         this.Composite = Matter.Composite;
         this.Common = Matter.Common;
+        this.Body = Matter.Body;
         this.Bodies = Matter.Bodies;
         this.Bounds = Matter.Bounds;
         this.Events = Matter.Events;
@@ -14,16 +16,22 @@ class GameEngine{
         this.controller = new EGZOController();
 
         this.currentValue = 0.0;
+
+        this.levelDimension = {
+            x: 2000, y: 2000};
         
         this.engine = this.Engine.create();
         this.world = this.engine.world;
+        this.zoom = 0.5;
+        this.player = null;
+        
 
         this.render = this.Render.create({
             element: document.body,
             engine: this.engine,
             options: {
-                width: window.innerWidth,
-                height: window.innerHeight,
+                width: this.levelDimension.x,
+                height: this.levelDimension.y,
                 background: '#0f0f13',
                 showAngleIndicator: false,
                 wireframes: false,
@@ -40,63 +48,76 @@ class GameEngine{
         // create runner
         this.runner = this.Runner.create();
         this.Runner.run(this.runner, this.engine);
-        
-        var obj = new GameObject(300,250,64,64,'cat.png',true);
 
-        var boxA = this.Bodies.circle(400, 200, 80);
+        var playerStart = {x: 0.1*this.levelDimension.x, y: 0.1*this.levelDimension.y};
+        this.player = new GameObject(playerStart.x, playerStart.y, 0.0425*this.levelDimension.x,'cat.png',false);
 
-        
-        var ground = this.Bodies.rectangle(window.innerWidth/2, window.innerHeight - 30, window.innerWidth, 60, { isStatic: true });
-        
-        this.World.add(this.world, boxA);
-        this.World.add(this.world, ground);
 
-        this.Events.on(this.engine, 'beforeTick', function() {
-        
-                // apply zoom
-                var canvas = document.getElementById('canvas');
-                var ctx = canvas.getContext("2d");
-                ctx.translate(window.innerWidth/2, window.innerHeight/2);
-                ctx.scale(this.zoom, this.zoom);
-                ctx.translate(-window.innerWidth/2, -window.innerHeight/2);  
-        
-            // center view at player 
-            this.Bounds.shift(this.render.bounds,
-            {
-                x: boxA.position.x - window.innerWidth / 2,
-                y: boxA.position.y - window.innerHeight / 2
-            });
-        
-        }.bind(this));
+        this.World.add(this.world, this.player.sprite);
 
-        
-        var test = new Terrain({x: 10, y: 10},{x: 50, y: 100},{x: 150, y: 200},{x: 200, y: 75},0.02,25);
+
+        var points = [
+            {x: 0.05, y: 0.2},
+            {x: 0.1, y: 0.35},
+            {x: 0.5, y: 0.4},
+            {x: 0.7, y: 0.3}];
+
+        for(var a = 0; a < points.length; a++)
+        {
+            points[a].x = points[a].x*this.levelDimension.x;
+            points[a].y = points[a].y*this.levelDimension.y; 
+        }
+
+        var platformWidth = 0.025*this.levelDimension.x;
+
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth);
         this.World.add(this.world, test.sprite);
 
 
         this.Render.run(this.render);
         this.Engine.run(this.engine);
 
+        this.Events.on(this.engine, 'beforeTick', function() {
+        
+            // apply zoom
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext("2d");
+            ctx.translate(window.innerWidth/2, window.innerWidth/2);
+            ctx.scale(this.zoom, this.zoom);
+            ctx.translate(-window.innerWidth/2, -window.innerWidth/2); 
+
+            if(this.player.sprite.position.x < 0 || this.player.sprite.position.x > this.levelDimension.x || this.player.sprite.position.y > this.levelDimension.y)
+            {
+                // this.player.sprite.position.x =  0.1*this.levelDimension.x;
+                // this.player.sprite.position.y = 0.1*this.levelDimension.y;
+                // this.Body.setStatic(this.player.sprite, true);
 
 
+            }
+        
+        // center view at player 
+        this.Bounds.shift(this.render.bounds,
+        {
+            x: this.player.sprite.position.x - window.innerWidth/2,
+            y: this.player.sprite.position.y - window.innerHeight/2
+        });
+        
+        }.bind(this));
     }
-
-    
-
-    
 
 
 }
 
 var Game = new GameEngine();
 
+
 Game.controller.onvalue = function(value)
 {
     var valueDiff = value - Game.currentValue;
     Game.currentValue = value;
 
-    var rotationValue = valueDiff/3.141
+    var rotationValue = valueDiff*1.57
 
-    Game.Composite.rotate( Game.world, rotationValue, {x: window.innerWidth/2, y: window.innerHeight/2});
-
+    Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
+    console.log(Game.player.sprite.position)
 };

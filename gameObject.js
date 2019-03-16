@@ -1,7 +1,7 @@
 
 class GameObject{
-    constructor(x,y,sizex,sizey,texture,isStaticObject){
-    this.sprite = Matter.Bodies.rectangle(x, y, sizex, sizey, {
+    constructor(x,y,size,texture,isStaticObject){
+    this.sprite = Matter.Bodies.circle(x, y, size, {
         render: {
             strokeStyle: '#ffffff',
             sprite: {
