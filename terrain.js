@@ -28,8 +28,8 @@ class Terrain{
             }
         },
         isStatic : true} );
-    }
 
+    }
     bezier = function(t, p0, p1, p2, p3){
         var cX = 3 * (p1.x - p0.x),
             bX = 3 * (p2.x - p1.x) - cX,

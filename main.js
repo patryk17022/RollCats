@@ -35,7 +35,8 @@ class GameEngine{
                 background: '#0f0f13',
                 showAngleIndicator: false,
                 wireframes: false,
-                hasBounds: true
+                hasBounds: true,
+                background: 'rgb(176,213,230)'
             }
         });
     
