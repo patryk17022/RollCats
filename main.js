@@ -60,6 +60,7 @@ class GameEngine{
         if(this.MenuStart==false)
         {
             
+            this.currentValue = 0;
         this.obj = JSON.parse(data);
         this.runner = this.Runner.create();
         this.Runner.run(this.runner, this.engine);
