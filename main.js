@@ -25,6 +25,9 @@ class GameEngine{
         this.world = this.engine.world;
         this.zoom = 0.5;
         this.player = null;
+        this.friend = null;
+        this.catFollows = false;
+        this.mouse = null;
         
 
         this.render = this.Render.create({
@@ -33,7 +36,6 @@ class GameEngine{
             options: {
                 width: this.levelDimension.x,
                 height: this.levelDimension.y,
-                background: 'img/testMenu1.gif',
                 showAngleIndicator: false,
                 wireframes: false,
                 hasBounds: true,
@@ -46,6 +48,8 @@ class GameEngine{
        
     }
 
+
+
     MainLoop(){
 
         // create runner
@@ -53,19 +57,22 @@ class GameEngine{
         {
         this.runner = this.Runner.create();
         this.Runner.run(this.runner, this.engine);
-
+        this.engine.timing.timeScale = 0.3;
         var playerStart = {x: 0.1*this.levelDimension.x, y: 0.1*this.levelDimension.y};
+        var friendStart = {x: 0.915*this.levelDimension.x, y: 0.365*this.levelDimension.y};
         this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
 
+        this.friend = new GameObject(friendStart.x, friendStart.y, 0.0125*this.levelDimension.x,'catChild.png',false);
+        
 
         this.World.add(this.world, this.player.sprite);
-
+        this.World.add(this.world, this.friend.sprite);
 
         var points = [
             {x: 0.05, y: 0.2},
             {x: 0.1, y: 0.35},
-            {x: 0.5, y: 0.4},
-            {x: 0.7, y: 0.3}];
+            {x: 0.4, y: 0.4},
+            {x: 0.5, y: 0.3}];
 
         for(var a = 0; a < points.length; a++)
         {
@@ -80,9 +87,9 @@ class GameEngine{
 
         
         var points = [
-            {x: 0.15, y: 0.4},
-            {x: 0.2, y: 1},
-            {x: 0.6, y: 0.8},
+            {x: 0.3, y: 0.5},
+            {x: 0.5, y: 0.6},
+            {x: 0.7, y: 0.6},
             {x: 1, y: 0.3}];
 
         for(var a = 0; a < points.length; a++)
@@ -95,10 +102,25 @@ class GameEngine{
         this.World.add(this.world, test.sprite);
 
 
-       
+        var points = [
+            {x: 0.0, y: 0.6},
+            {x: 0.2, y: 1.0},
+            {x: 0.5, y: 1.0},
+            {x: 1, y: 0.5}];
 
-        this.Events.on(this.engine, 'beforeTick', function() {
+        for(var a = 0; a < points.length; a++)
+        {
+            points[a].x = points[a].x*this.levelDimension.x;
+            points[a].y = points[a].y*this.levelDimension.y; 
+        }
+
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth);
+        this.World.add(this.world, test.sprite);
         
+        this.Events.on(this.engine, 'beforeTick', function() {
+
+            
+
             // apply zoom
             var canvas = document.getElementById('canvas');
             var ctx = canvas.getContext("2d");
@@ -106,13 +128,26 @@ class GameEngine{
             ctx.scale(this.zoom, this.zoom);
             ctx.translate(-window.innerWidth/2, -window.innerWidth/2); 
 
-            if(this.player.sprite.position.x < 0 || this.player.sprite.position.x > this.levelDimension.x || this.player.sprite.position.y > this.levelDimension.y)
+            var distanceBetweenCats = Math.sqrt(Math.pow(this.player.sprite.position.x - this.friend.sprite.position.x, 2) + 
+            Math.pow(this.player.sprite.position.y - this.friend.sprite.position.y, 2));
+
+            if(distanceBetweenCats < 100)
             {
-                // this.player.sprite.position.x =  0.1*this.levelDimension.x;
-                // this.player.sprite.position.y = 0.1*this.levelDimension.y;
-                // this.Body.setStatic(this.player.sprite, true);
+                this.catFollows = true;
+            }
+            else if(!this.catFollows)
+            {
+                    var gravity = this.engine.world.gravity;
 
+                this.Body.applyForce(this.friend.sprite, {
+                    x: 0,
+                    y: 0
+                }, {
+                    x: -gravity.x * gravity.scale * this.friend.sprite.mass,
+                    y: -gravity.y * gravity.scale * this.friend.sprite.mass
+                });
 
+                this.Body.setAngularVelocity(this.friend.sprite, 0);
             }
         
         // center view at player 
@@ -141,7 +176,6 @@ Game.controller.onvalue = function(value)
 
     if((value>=0.05 || value<=-0.05) && Game.MenuStart!=false)
     {
-        Game.render.options.background='img/cat.png';
         Game.MenuStart=false;
         Game.MainLoop();
     }

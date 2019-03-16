@@ -10,5 +10,6 @@ class GameObject{
         },
          isStatic: isStaticObject 
     });
+    this.sprite.frictionAir = 0.01;
 }
 }

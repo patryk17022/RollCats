@@ -11,18 +11,15 @@ class Terrain{
         }
 
         var j = 1;
-        for (var i=1/accuracy; i>0; i-=1){
+        var n = 1.0/accuracy;
+        console.log(n)
+        for (var i=n; i>0; i-=1){
 
-            var norm = this.bezierNormal(j, p0, p1, p2, p3);
-            console.log(norm);
-            j -= accuracy;
-            vert.push({x: vert[i].x-(width*norm.x), y: vert[i].y-(width*norm.y)});
+            vert.push({x: vert[i].x, y: vert[i].y-width});
         }
   
 
-    this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {isStatic : true}, {render: {
-        fillStyle: 'red'}
-    });
+    this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {isStatic : true});
     
     }
     bezier = function(t, p0, p1, p2, p3){
