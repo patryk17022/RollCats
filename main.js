@@ -24,7 +24,7 @@ class GameEngine{
         
         this.engine = this.Engine.create();
         this.world = this.engine.world;
-        this.zoom = 0.5;
+        this.zoom = 1.0;
         this.player = null;
         this.friend = null;
         this.catFollows = false;
@@ -84,7 +84,7 @@ class GameEngine{
 
         var platformWidth = 0.025*this.levelDimension.x;
 
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth, 'grass.png');
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.01,platformWidth, 'grass.png');
         this.World.add(this.world, test.sprite);
 
         
@@ -100,7 +100,7 @@ class GameEngine{
             points[a].y = points[a].y*this.levelDimension.y; 
         }
 
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth,'grass.png');
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.01,platformWidth,'grass.png');
         this.World.add(this.world, test.sprite);
 
 
@@ -116,12 +116,33 @@ class GameEngine{
             points[a].y = points[a].y*this.levelDimension.y; 
         }
 
-        var test = new Terrain(points[0], points[1], points[2], points[3],0.02,platformWidth, 'grass.png');
+        var test = new Terrain(points[0], points[1], points[2], points[3],0.01,platformWidth, 'grass.png');
         this.World.add(this.world, test.sprite);
         
         this.Events.on(this.engine, 'beforeTick', function() {
 
-            
+            if(this.player.sprite.position.x < -1000 || 
+                this.player.sprite.position.x > 3000 ||
+                this.player.sprite.position.y < -1000 ||
+                this.player.sprite.position.y > 3000 )
+                {
+                    this.Composite.remove(this.world, this.friend.sprite)
+                    this.Composite.remove(this.world, this.player.sprite)
+
+                    var playerStart = {x: 0.1*this.levelDimension.x, y: 0.1*this.levelDimension.y};
+                    var friendStart = {x: 0.915*this.levelDimension.x, y: 0.365*this.levelDimension.y};
+                    this.player = new GameObject(playerStart.x, playerStart.y, 0.025*this.levelDimension.x,'cat.png',false);
+
+                    this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
+                    
+                    // this.Body.setPosition(this.player.sprite, {x: 0.1*this.levelDimension.x, y: 0.1*this.levelDimension.y})
+                    // this.Body.setPosition(this.friend.sprite, {x: 0.15*this.levelDimension.x, y: 0.1*this.levelDimension.y})
+                    this.catFollows = false;
+                    // this.Body.setAngularVelocity(this.player.sprite, 0);
+                    // this.Body.setAngularVelocity(this.friend.sprite, 0);
+                    // this.Body.setVelocity(this.player.sprite, {x: 0, y: 0});
+                    // this.Body.setVelocity(this.friend.sprite, {x: 0, y: 0});
+                }
 
             // apply zoom
             var canvas = document.getElementById('canvas');
