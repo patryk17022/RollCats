@@ -16,15 +16,26 @@ class Terrain{
             vert.push({x: vert[i].x, y: vert[i].y-width});
         }
   
-
-    this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {
-        render: {
-            strokeStyle: '#ffffff',
-            sprite: {
-                texture: './img/' + texture
-            }
-        },
-        isStatic : true} );
+     
+        if(texture)
+        this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {
+            render: {
+                strokeStyle: '#ffffff',
+                sprite: {
+                    texture: './img/' + texture
+                }
+            },
+            isStatic : true} );
+        else
+        this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {
+            render: {
+                fillStyle: `yellow`,
+                strokeStyle: 'white',
+                lineWidth: 3
+      
+                
+            },
+            isStatic : true} );
 
     }
     bezier = function(t, p0, p1, p2, p3){
