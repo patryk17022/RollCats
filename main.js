@@ -71,7 +71,13 @@ class GameEngine{
 
         this.friend = new GameObject(friendStart.x, friendStart.y, 0.015*this.levelDimension.x,'catChild.png',false);
         this.endPoint = this.Bodies.circle(endPointLocation.x, endPointLocation.y, 0.01*this.levelDimension.x,{
-             isStatic: true 
+             isStatic: true,
+             render: {
+                strokeStyle: '#ffffff',
+                sprite: {
+                    texture: './img/end.png'
+                }
+            },
         });
 
         this.World.add(this.world, this.endPoint);
