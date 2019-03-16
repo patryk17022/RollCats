@@ -43,7 +43,7 @@ var p3 = new Position(500,100);
 var p4= new Position(0,300);
 var p5= new Position(300,0);
 var p6= new Position(700,300);
-var bezierTable=[p1,p2,p3,new Position(500,100),new Position(600,0),new Position(700,100)];
+var bezierTable=[p1,p2,p3,p4,p5,p6];
 
 var tmpTable=[p1,p2];
 

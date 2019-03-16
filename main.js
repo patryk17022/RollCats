@@ -12,6 +12,7 @@ class GameEngine{
         this.Bodies = Matter.Bodies;
         this.Bounds = Matter.Bounds;
         this.Events = Matter.Events;
+        this.MenuStart=true;
         this.World = Matter.World;
         this.controller = new EGZOController();
 
@@ -32,20 +33,23 @@ class GameEngine{
             options: {
                 width: this.levelDimension.x,
                 height: this.levelDimension.y,
-                background: '#0f0f13',
+                background: 'img/testMenu1.gif',
                 showAngleIndicator: false,
                 wireframes: false,
                 hasBounds: true
             }
         });
-    
-
+        
+      
         this.MainLoop();
+       
     }
 
     MainLoop(){
 
         // create runner
+        if(this.MenuStart==false)
+        {
         this.runner = this.Runner.create();
         this.Runner.run(this.runner, this.engine);
 
@@ -74,8 +78,7 @@ class GameEngine{
         this.World.add(this.world, test.sprite);
 
 
-        this.Render.run(this.render);
-        this.Engine.run(this.engine);
+       
 
         this.Events.on(this.engine, 'beforeTick', function() {
         
@@ -104,6 +107,9 @@ class GameEngine{
         
         }.bind(this));
     }
+    this.Render.run(this.render);
+    this.Engine.run(this.engine);
+}
 
 
 }
@@ -116,8 +122,15 @@ Game.controller.onvalue = function(value)
     var valueDiff = value - Game.currentValue;
     Game.currentValue = value;
 
+    if((value>=0.05 || value<=-0.05) && Game.MenuStart!=false)
+    {
+        Game.render.options.background='img/cat.png';
+        Game.MenuStart=false;
+        Game.MainLoop();
+    }
+
     var rotationValue = valueDiff*1.57
 
     Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
-    console.log(Game.player.sprite.position)
+    //console.log(Game.player.sprite.position)
 };
