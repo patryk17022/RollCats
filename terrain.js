@@ -1,6 +1,6 @@
 
 class Terrain{
-    constructor(p0,p1,p2,p3,accuracy,width){
+    constructor(p0,p1,p2,p3,accuracy,width,texture){
 
     var vert2 =  [{x : p0.x , y :  p0.y}];
         var vert =  [{x : p0.x , y :  p0.y}];
@@ -19,8 +19,15 @@ class Terrain{
         }
   
 
-    this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {isStatic : true});
-    
+    this.sprite = Matter.Bodies.fromVertices(vert[1/(accuracy*2)].x,vert[1/(accuracy*2)].y, vert , {
+        render: {
+            strokeStyle: '#ffffff',
+            sprite: {
+                texture: './img/' + texture
+            }
+        },
+        isStatic : true} );
+
     }
     bezier = function(t, p0, p1, p2, p3){
         var cX = 3 * (p1.x - p0.x),
