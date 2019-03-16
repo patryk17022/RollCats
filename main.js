@@ -119,5 +119,4 @@ Game.controller.onvalue = function(value)
     var rotationValue = valueDiff*1.57
 
     Game.Composite.rotate( Game.world, rotationValue, {x: Game.levelDimension.x/2, y: Game.levelDimension.y/2});
-    console.log(Game.player.sprite.position)
 };
