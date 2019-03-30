@@ -1,0 +1,27 @@
+{
+  "name": "editor",
+  "version": "0.0.1",
+  "description": "Editor for RollCats",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"tsc -w\" \"webpack --config webpack.config.js --watch --progress\"",
+    "build": "tsc && webpack --config webpack.config.js"
+  },
+  "author": "PG",
+  "license": "ISC",
+  "dependencies": {
+    "@types/matter-js": "^0.10.2",
+    "load-json-file": "^5.2.0",
+    "matter-js": "^0.14.2",
+    "typescript": "^3.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@types/node": "^11.12.2",
+    "babel-loader": "^8.0.5",
+    "concurrently": "^4.1.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
